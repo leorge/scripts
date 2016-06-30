@@ -2,6 +2,8 @@
 #
 # Generate a worst data for QuickX.java
 #
+#   http://algs4.cs.princeton.edu/23quicksort/QuickX.java.html
+#
 use strict;
 use warnings;
 $#ARGV < 0 && die "Usage : $0 count\n";

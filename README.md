@@ -2,6 +2,7 @@
 Clone or download this project to a sub-directory $HOME/**scripts** with a button above.  
 Add the path to $HOME/.profile as below.  
 
-    $ echo "\$PATH=\$PATH:~/scripts" >> ~/.profile
+    $ cd ; cp .profile .profile.bak     # back up
+    $ echo "\$PATH=\$PATH:~/scripts" >> .profile
 
 Login again.

@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# generate a wrong data for QuickX.java
+# Generate a worst data for QuickX.java
 #
 use strict;
 use warnings;

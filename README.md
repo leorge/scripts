@@ -1,9 +1,11 @@
 # scripts
-Clone or download this project to a sub-directory $HOME/**scripts** with a button above.  
-Add the path to $HOME/.profile as below.  
+If you don't have a bin sub-directory in your home,
+please create it and login again.
 
-    $ echo $PATH                        # confirm
-    $ cd ; cp .profile .profile.bak     # back up
-    $ echo "\$PATH=\$PATH:~/scripts" >> .profile
+    $ mkdir ~/bin
 
-Login again.
+Clone this project,
+and link scripts to $HOME/**bin**.
+
+    $ git clone https://github.com/leorge/scripts.git
+    $ ln *.awk *.pl ~/bin/

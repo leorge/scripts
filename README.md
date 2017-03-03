@@ -1,12 +1,10 @@
 # scripts
-Clone this project,
-and add the path to $HOME/.profile as below in your appropriate directory.  
+Clone this project.
 
+    $ mkdir -p ~/bin
+    $ cd ~/bin
     $ git clone https://github.com/leorge/scripts.git
-    $ echo $PATH          # confirm
-    $ cp ~/.profile .     # back up
-    $ echo "PATH=\$PATH:`pwd`/scripts" >> ~/.profile
+    $ cd scripts
+    $ ln *.awk *.pl ~/bin/
 
 Login again.
-
-    $ echo $PATH

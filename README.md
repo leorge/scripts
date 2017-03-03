@@ -7,4 +7,4 @@ Clone this project.
     $ cd scripts
     $ cp *.awk *.pl ~/bin/
 
-Login again.
+Login again if ~/bin is not included in $PATH.

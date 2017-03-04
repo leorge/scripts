@@ -12,8 +12,10 @@ else
 fi
 cd ~/bin/scripts
 for cmd in *; do
-    if [ $cmd = "READ.ME" ]; then
+    if [ $cmd = "README.md" ]; then
+        continue
     elif [ $cmd = `basename $0` ]; then
+        continue
     else
         cp $cmd ..
     fi

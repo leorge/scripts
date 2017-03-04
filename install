@@ -1,6 +1,6 @@
 if [ -d ~/bin/scripts ]; then   # already installed
     cd ~/bin/scripts
-    git pull
+    git pull > /dev/null
 else
     mkdir -p ~/bin
     cd ~/bin
@@ -8,7 +8,7 @@ else
         wget -N https://github.com/leorge/scripts/raw/master/inst_cmd
         chmod +x inst_cmd && ./inst_cmd git
     fi
-    git clone https://github.com/leorge/scripts.git
+    git clone https://github.com/leorge/scripts.git > /dev/null
 fi
 cd ~/bin/scripts
 for cmd in *; do

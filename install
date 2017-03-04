@@ -4,7 +4,7 @@ if [ -d ~/bin/scripts ]; then   # already installed
 else
     mkdir -p ~/bin; cd ~/bin
     if ! which git > /dev/null ; then  # install git(1)
-        wget https://github.com/leorge/scripts/raw/master/inst_cmd
+        wget -N https://github.com/leorge/scripts/raw/master/inst_cmd
         chmod +x inst_cmd && ./inst_cmd git
     fi
     git clone https://github.com/leorge/scripts.git && cd scripts

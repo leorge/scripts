@@ -1,6 +1,19 @@
-mkdir -p ~/bin; cd ~/bin
-wget https://github.com/leorge/scripts/raw/master/inst_cmd
-chmod +x inst_cmd
-inst_cmd git
-git clone https://github.com/leorge/scripts.git
+if [ -d ~/bin/scripts ]; then
+    cd ~/bin/scirpts
+    git pull
+else
+    mkdir -p ~/bin; cd ~/bin
+    wget https://github.com/leorge/scripts/raw/master/inst_cmd
+    chmod +x inst_cmd
+    inst_cmd git
+    git clone https://github.com/leorge/scripts.git
+    cd scripts
+fi
 cp scripts/*.{awk,pl,sh} .
+for cmd in *; do
+    if [ $cmd = "READ.ME" ]; then
+    elif [ $cmd = `basename $0` ]; then
+    else
+        cp $cmd ..
+    fi
+done

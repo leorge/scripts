@@ -1,0 +1,6 @@
+mkdir -p ~/bin; cd ~/bin
+wget https://github.com/leorge/scripts/raw/master/inst_cmd
+chmod +x inst_cmd
+inst_cmd git
+git clone https://github.com/leorge/scripts.git
+cp scripts/*.{awk,pl,sh} .

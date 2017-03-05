@@ -1,5 +1,5 @@
 # scripts
-Copy scirpts in this project to $HOME/bin as below.
+Copy scirpt files in this project to $HOME/bin as below.
 
     $ wget https://github.com/leorge/scripts/raw/master/install
     $ bash install

@@ -20,5 +20,6 @@ else  # make a repository here.
     fi
     $INSTALLER git gawk perl
     git clone https://github.com/leorge/scripts.git
-    cd scripts && bash `basename $0`
+    pushd scripts && bash `basename $0`; popd
+    rm $0
 fi

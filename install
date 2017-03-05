@@ -19,3 +19,4 @@ for cmd in *; do
         cp $cmd ~/bin/
     fi
 done
+inst_cmd gawk

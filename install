@@ -4,6 +4,7 @@ else
     if ! which git > /dev/null ; then  # install git(1)
         wget -N https://github.com/leorge/scripts/raw/master/inst_cmd
         chmod +x inst_cmd && ./inst_cmd git
+        rm ./inst_cmd
     fi
     git clone https://github.com/leorge/scripts.git > /dev/null
     cd scripts

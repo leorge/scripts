@@ -10,7 +10,8 @@ if [ -d .git ] && [ -x esd.awk ]; then   # in the repository
             cp $cmd ~/bin/
         fi
     done
-else  # make a repository here.
+    exit
+elif [ ! -d scripts ]; then  # make a repository here.
     INSTALLER=inst_cmd
     if ! which $INSTALLER > /dev/null; then  # install a installer temporary
         TMP=/tmp
@@ -20,6 +21,6 @@ else  # make a repository here.
     fi
     $INSTALLER git gawk perl
     git clone https://github.com/leorge/scripts.git
-    pushd scripts && bash `basename $0`; popd
-    rm $0
 fi
+pushd scripts && bash `basename $0`; popd
+rm $0

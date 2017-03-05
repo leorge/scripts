@@ -14,7 +14,7 @@ else  # make a repository here.
     INSTALLER=inst_cmd
     if ! which INSTALLER > /dev/null; then  # install a installer temporary
         TMP=/tmp
-        wget -N -P $TMP https://github.com/leorge/scripts/raw/master/INSTALLER
+        wget -N -P $TMP https://github.com/leorge/scripts/raw/master/$INSTALLER
         chmod +x $TMP/INSTALLER
 	PATH=$PATH:$TMP
     fi

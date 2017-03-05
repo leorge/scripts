@@ -15,10 +15,10 @@ else  # make a repository here.
     if ! which INSTALLER > /dev/null; then  # install a installer temporary
         TMP=/tmp
         wget -N -P $TMP https://github.com/leorge/scripts/raw/master/$INSTALLER
-        chmod +x $TMP/INSTALLER
+        chmod +x $TMP/$INSTALLER
 	PATH=$PATH:$TMP
     fi
-    INSTALLER git gawk perl
+    $INSTALLER git gawk perl
     git clone https://github.com/leorge/scripts.git
     cd scripts && bash `basename $0`
 fi

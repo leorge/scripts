@@ -1,4 +1,4 @@
-if [ -d .git && -x esd.awk ]; then   # in the repository
+if [ -d .git ] && [ -x esd.awk ]; then   # in the repository
     git pull
     mkdir -p ~/bin
     for cmd in *; do

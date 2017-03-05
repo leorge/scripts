@@ -1,4 +1,4 @@
-#!/usr/bin/awk -f
+#!/usr/bin/gawk -f
 #
 #   Output a tablist for expand(1).
 #

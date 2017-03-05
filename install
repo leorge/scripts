@@ -1,22 +1,24 @@
 if [ -d .git && -x esd.awk ]; then   # in the repository
-    git pull > /dev/null
-else
-    if ! which git > /dev/null ; then  # install git(1)
-        wget -N https://github.com/leorge/scripts/raw/master/inst_cmd
-        chmod +x inst_cmd && ./inst_cmd git
-        rm ./inst_cmd
+    git pull
+    mkdir -p ~/bin
+    for cmd in *; do
+        if [ $cmd = "README.md" ]; then
+            continue
+        elif [ $cmd = `basename $0` ]; then
+            continue
+        else
+            cp $cmd ~/bin/
+        fi
+    done
+else  # make a repository here.
+    INSTALLER=inst_cmd
+    if ! which INSTALLER > /dev/null; then  # install a installer temporary
+        TMP=/tmp
+        wget -N -P $TMP https://github.com/leorge/scripts/raw/master/INSTALLER
+        chmod +x $TMP/INSTALLER
+	PATH=$TMP:$PATH
     fi
-    git clone https://github.com/leorge/scripts.git > /dev/null
-    cd scripts
+    INSTALLER git gawk perl
+    git clone https://github.com/leorge/scripts.git
+    cd scripts && bash `basename $0`
 fi
-test -d ~/bin || mkdir ~/bin
-for cmd in *; do
-    if [ $cmd = "README.md" ]; then
-        continue
-    elif [ $cmd = `basename $0` ]; then
-        continue
-    else
-        cp $cmd ~/bin/
-    fi
-done
-inst_cmd gawk perl

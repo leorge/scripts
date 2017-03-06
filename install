@@ -7,7 +7,7 @@ if [ -d .git ] && [ -x esd.awk ]; then   # in the repository
         elif [ $cmd = `basename $0` ]; then
             continue
         else
-            cp $cmd ~/bin/
+            ln -f $cmd ~/bin/
         fi
     done
     exit

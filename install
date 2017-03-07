@@ -11,6 +11,7 @@ if [ -d .git ] && [ -x $PIVOT ]; then   # in the repository
     done
 elif which $PIVOT > /dev/null; then  # maybe already installed
     echo $PIVOT is available. Searching $PIVOT ...
+    pushd ~
     for cmd in `find / -name $PIVOT -print 2>/dev/null`; do
 	echo $cmd; cd `dirname $cmd`
         if [ -d .git ]; then
@@ -18,13 +19,14 @@ elif which $PIVOT > /dev/null; then  # maybe already installed
             git pull
             if [ -x $PIVOT ]; then
                 bash $0  # recursive call
+                popd && rm $0
                 exit     # complete
             fi
         fi
     done
     echo There is no appropriate repository.
     rm `which $PIVOT`
-    bash $0  # retry
+    popd && bash $0  # retry
 elif [ -d scripts ]; then  # the repository may exist in the subdirectory.
     cd scripts
     bash $0    # recursive call

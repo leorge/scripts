@@ -1,26 +1,41 @@
-if [ -d .git ] && [ -x esd.awk ]; then   # in the repository
-    git pull
+PIVOT=esd.awk  # Don't use this file.
+if [ -d .git ] && [ -x $PIVOT ]; then   # in the repository
+    git pull  # get the lastest scripts
     mkdir -p ~/bin
     for cmd in *; do
-        if [ $cmd = "README.md" ]; then
-            continue
-        elif [ $cmd = `basename $0` ]; then
-            continue
+        if [ $cmd = "README.md" ] || [ $cmd = `basename $0` ]; then
+            continue  # do nothing
         else
             ln -f $cmd ~/bin/
         fi
     done
-    exit
-elif [ ! -d scripts ]; then  # make a repository here.
+elif which $PIVOT > /dev/null; then  # maybe already installed
+    echo $PIVOT is available. Searching $PIVOT ...
+    for cmd in `find / -name $PIVOT -print 2>/dev/null`; do
+	echo $cmd; cd `dirname $cmd`
+        if [ -d .git ]; then
+            echo A repository is found.
+            if [ -x $PIVOT ]; then
+                bash $0  # recursive call
+                exit     # complete
+            fi
+        fi
+    done
+    echo There is no appropriate repository.
+    rm `which $PIVOT`
+    bash $0  # retry
+elif [ -d scripts ]; then  # the repository may exist in the subdirectory.
+    cd scripts
+    bash $0    # recursive call
+else  # make a repository here.
     INSTALLER=inst_cmd
-    if ! which $INSTALLER > /dev/null; then  # install a installer temporary
+    if ! which $INSTALLER > /dev/null; then  # not installed.
         TMP=/tmp
         wget -N -P $TMP https://github.com/leorge/scripts/raw/master/$INSTALLER
         chmod +x $TMP/$INSTALLER
-	PATH=$PATH:$TMP
+	PATH=$PATH:$TMP  # temporarily
     fi
-    $INSTALLER git gawk perl
+    $INSTALLER git gawk
     git clone https://github.com/leorge/scripts.git
+    pushd scripts && bash $0 && popd && rm $0
 fi
-pushd scripts && bash `basename $0`; popd
-rm $0

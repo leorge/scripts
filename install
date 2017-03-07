@@ -15,6 +15,7 @@ elif which $PIVOT > /dev/null; then  # maybe already installed
 	echo $cmd; cd `dirname $cmd`
         if [ -d .git ]; then
             echo A repository is found.
+            git pull
             if [ -x $PIVOT ]; then
                 bash $0  # recursive call
                 exit     # complete

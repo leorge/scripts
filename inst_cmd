@@ -4,8 +4,8 @@ for app in $*; do
         echo "Install $app..."
         if which apt > /dev/null; then
             sudo apt install -y $app
-        elif which yum > /dev/null; then
-            sudo apt yum -y $app
+        elif which dnf > /dev/null; then
+            sudo dnf install -y $app
         fi
     fi
 done

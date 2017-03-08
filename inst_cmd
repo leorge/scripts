@@ -2,10 +2,18 @@
 for app in $*; do
     if ! which $app > /dev/null; then
         echo "Install $app..."
+        #### debian #### 
         if which apt > /dev/null; then
             sudo apt install -y $app
+        elif which apt-get > /dev/null; then
+            sudo apt-get install -y $app
+        elif which aptitude > /dev/null; then
+            sudo aptitude install -y $app
+        #### redhat #### 
         elif which dnf > /dev/null; then
-            sudo dnf install -y $app
+            sudo dnf install -y $app.x86_64
+#        elif which yum > /dev/null; then
+#            sudo yum install -y $app
         fi
     fi
 done

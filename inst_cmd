@@ -1,9 +1,11 @@
 #!/bin/bash
 for app in $*; do
     if ! which $app > /dev/null; then
+        echo "Install $app..."
         if which apt > /dev/null; then
-            echo "Install $app..."
             sudo apt install -y $app
+        elif which yum > /dev/null; then
+            sudo apt yum -y $app
         fi
     fi
 done

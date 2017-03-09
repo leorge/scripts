@@ -1,15 +1,20 @@
+myName=`basename $0`
+echo $myName
 function CopyCmd {
+echo "CopyCmd()"
     BIN = "~/bin"; mkdir -p $BIN
     for cmd in *; do
-        if [ $cmd = "README.md" ] || [ $cmd = `basename $0` ]; then
+        if [ $cmd = "README.md" ] || [ $cmd = $myName ]; then
             continue  # do nothing
         else
-            cp $cmd $BIN/
+echo "Copy $cmd ..."
+            cp $cmd $BIN
         fi
     done
 }
-PIVOT=esd.awk
+REPO=scripts; PIVOT=esd.awk
 if [ -d .git ] && [ -x $PIVOT ]; then   # in the repository
+echo "pull $REPO"
     git pull && CopyCmd
 elif which $PIVOT > /dev/null; then  # maybe already installed
     echo $PIVOT is available. Searching $PIVOT ...
@@ -20,7 +25,7 @@ elif which $PIVOT > /dev/null; then  # maybe already installed
             echo A repository is found.
             git pull
             if [ -x $PIVOT ]; then
-                bash `basename $0`  # recursive call
+                bash $myName  # recursive call
                 popd && rm $0
                 exit     # complete
             fi
@@ -28,27 +33,30 @@ elif which $PIVOT > /dev/null; then  # maybe already installed
     done
     echo There is no appropriate repository.
     rm `which $PIVOT`
-    popd && bash `basename $0`  # retry
-elif [ -d scripts ]; then  # the repository may exist in the subdirectory.
-    cd scripts
-    bash `basename $0`  # recursive call
+    popd && bash $myName  # retry
+elif [ -d $REPO ]; then  # the repository may exist in the subdirectory.
+    cd $REPO
+    bash $myName  # recursive call
 else  # make a repository here.
     INSTALLER=inst_cmd; TMP=/tmp
     if ! which $INSTALLER > /dev/null; then  # not installed.
-        wget -N -P $TMP https://github.com/leorge/scripts/raw/master/$INSTALLER
+echo "install $INSTALLER temporarily."
+        wget -N -P $TMP https://github.com/leorge/$REPO/raw/master/$INSTALLER
         chmod +x $TMP/$INSTALLER
         PATH=$PATH:$TMP  # temporarily
     fi
     $INSTALLER gawk
     if $INSTALLER git; then
-        git clone https://github.com/leorge/scripts.git
-        pushd scripts && bash `basename $0` && popd && rm $0
+echo "clone $REPO"
+        git clone https://github.com/leorge/$REPO.git
+        pushd $REPO && bash $myName && popd && rm $0
     else
+echo "download zip file"
         pushd $TMP
             ZIP=master.zip; rm -f $ZIP
-            wget -N https://github.com/leorge/scripts/archive/$ZIP
+            wget -N https://github.com/leorge/$REPO/archive/$ZIP
             unzip $ZIP
-            cd scripts
+            cd $REPO
             CopyCmd
         popd
     fi

@@ -1,4 +1,4 @@
-PIVOT=esd.awk  # Don't use this file.
+PIVOT=esd.awk
 if [ -d .git ] && [ -x $PIVOT ]; then   # in the repository
     git pull  # get the lastest scripts
     mkdir -p ~/bin
@@ -13,12 +13,12 @@ elif which $PIVOT > /dev/null; then  # maybe already installed
     echo $PIVOT is available. Searching $PIVOT ...
     pushd ~
     for cmd in `find / -name $PIVOT -print 2>/dev/null`; do
-	echo $cmd; cd `dirname $cmd`
+    echo $cmd; cd `dirname $cmd`
         if [ -d .git ]; then
             echo A repository is found.
             git pull
             if [ -x $PIVOT ]; then
-                bash $0  # recursive call
+                bash `basename $0`  # recursive call
                 popd && rm $0
                 exit     # complete
             fi
@@ -26,19 +26,20 @@ elif which $PIVOT > /dev/null; then  # maybe already installed
     done
     echo There is no appropriate repository.
     rm `which $PIVOT`
-    popd && bash $0  # retry
+    popd && bash `basename $0`  # retry
 elif [ -d scripts ]; then  # the repository may exist in the subdirectory.
     cd scripts
-    bash $0    # recursive call
+    bash `basename $0`  # recursive call
 else  # make a repository here.
     INSTALLER=inst_cmd
     if ! which $INSTALLER > /dev/null; then  # not installed.
         TMP=/tmp
         wget -N -P $TMP https://github.com/leorge/scripts/raw/master/$INSTALLER
         chmod +x $TMP/$INSTALLER
-	PATH=$PATH:$TMP  # temporarily
+        PATH=$PATH:$TMP  # temporarily
     fi
-    $INSTALLER git gawk
-    git clone https://github.com/leorge/scripts.git
-    pushd scripts && bash $0 && popd && rm $0
+    if $INSTALLER git gawk; then
+        git clone https://github.com/leorge/scripts.git
+        pushd scripts && bash `basename $0` && popd && rm $0
+    fi
 fi

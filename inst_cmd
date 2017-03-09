@@ -3,23 +3,26 @@ NULL=/dev/null
 for app in $*; do
     if ! which $app 2> $NULL; then
         echo -n "Install $app..." 1>&2
-        #### debian #### 
+        unset ERR
+        #--- debian ---- 
         if which apt 2> $NULL; then
             sudo apt install -y $app
         elif which apt-get 2> $NULL; then
             sudo apt-get install -y $app
         elif which aptitude 2> $NULL; then
             sudo aptitude install -y $app
-        #### redhat #### 
+        #--- redhat ---- 
         elif which dnf 2> $NULL; then
             sudo dnf install -y $app.x86_64
 #        elif which yum 2> $NULL; then
 #            sudo yum install -y $app
         else
-            set ERR=$?
+            ERR=$?
             echo " failed." 1>&2
             exit $ERR
         fi
+        #### Check result ####
+        ERR=$?; if [ $ERR -ne 0 ]; then exit $ERR; fi
         echo "" 1>&2
     fi
 done

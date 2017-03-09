@@ -16,8 +16,9 @@ for app in $*; do
 #        elif which yum 2> $NULL; then
 #            sudo yum install -y $app
         else
+            set ERR=$?
             echo " failed." 1>&2
-            exit
+            exit $ERR
         fi
         echo "" 1>&2
     fi

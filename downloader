@@ -2,13 +2,13 @@ myName=`basename $0`
 echo $myName
 function CopyCmd {
 echo "CopyCmd()"
-    BIN=~/bin; mkdir -p $BIN
+    BIN=~/bin; mkdir -p $BIN || exit
     for cmd in *; do
         if [ $cmd = "README.md" ] || [ $cmd = $myName ]; then
             continue  # do nothing
         else
-echo "Copy $cmd ..."
-            cp $cmd $BIN
+echo "Copy $cmd ... to $BIN/"
+            cp $cmd $BIN/
         fi
     done
 }

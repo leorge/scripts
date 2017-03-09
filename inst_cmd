@@ -2,7 +2,7 @@
 NULL=/dev/null
 for app in $*; do
     if ! which $app 2> $NULL; then
-        echo "Install $app..."
+        echo -n "Install $app..." 1>&2
         #### debian #### 
         if which apt 2> $NULL; then
             sudo apt install -y $app
@@ -16,7 +16,9 @@ for app in $*; do
 #        elif which yum 2> $NULL; then
 #            sudo yum install -y $app
         else
+			echo " failed." 1>&2
             exit
         fi
+		echo "" 1>&2
     fi
 done

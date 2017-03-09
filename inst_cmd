@@ -16,7 +16,7 @@ for app in $*; do
 #        elif which yum > NULL; then
 #            sudo yum install -y $app
         else
-            return
+            exit
         fi
     fi
 done

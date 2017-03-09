@@ -1,19 +1,19 @@
 #!/bin/bash
 NULL=/dev/null
 for app in $*; do
-    if ! which $app > NULL; then
+    if ! which $app > $NULL; then
         echo "Install $app..."
         #### debian #### 
-        if which apt > NULL; then
+        if which apt > $NULL; then
             sudo apt install -y $app
-        elif which apt-get > NULL; then
+        elif which apt-get > $NULL; then
             sudo apt-get install -y $app
-        elif which aptitude > NULL; then
+        elif which aptitude > $NULL; then
             sudo aptitude install -y $app
         #### redhat #### 
-        elif which dnf > NULL; then
+        elif which dnf > $NULL; then
             sudo dnf install -y $app.x86_64
-#        elif which yum > NULL; then
+#        elif which yum > $NULL; then
 #            sudo yum install -y $app
         else
             exit

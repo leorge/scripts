@@ -1,0 +1,13 @@
+BIN=~/bin
+if mkdir -p $BIN; then
+    for cmd in *; do
+        case $cmd in
+        `basename $0` | "README.md" | "downloader" )
+            ;;  # do nothing
+        *)
+            echo "Copy $cmd ... to $BIN/"
+            cp $cmd $BIN/
+            ;;
+        esac
+    done
+fi

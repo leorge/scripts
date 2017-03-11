@@ -28,4 +28,4 @@ else
     echo "Please clone the repository \"$REPO\" under another operating system, then retry." >&2
     exit $ERR
 fi
-export $PATH
+export $PATH	# maybe modified by copy2bin.

@@ -5,5 +5,5 @@ elif mkdir -p $BIN; then
     for cmd in *; do
         [ -x $cmd ] && cp $cmd $BIN/ # && echo $0: $cmd is copied. >&2
     done
-	echo :$PATH: | grep :$HOME/bin: > /dev/null || export PATH=$PATH:$HOME/bin
+    echo :$PATH: | grep :$HOME/bin: > /dev/null || export PATH=$PATH:$HOME/bin
 fi

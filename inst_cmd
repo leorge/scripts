@@ -21,6 +21,9 @@ for app in $*; do
             sudo dnf install -y $app.x86_64
 #        elif which yum 2> $NULL; then
 #            sudo yum install -y $app
+		#--- arch linux ---
+		elif which pacman; then
+			sudo pacman -S $app
         else
             ERR=$?
             echo " failed." 1>&2

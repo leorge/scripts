@@ -25,6 +25,6 @@ elif $INSTALLER unzip; then # unzip(1) is available
 else
     ERR=$?
     echo "You can not install git and unzip" >&2
-    echo "Please clone the repository \"$REPO\" under another operating system, then retry."
+    echo "Please clone the repository \"$REPO\" under another operating system, then retry." >&2
     exit $ERR
 fi

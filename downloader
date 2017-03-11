@@ -16,7 +16,8 @@ elif [ -d .git ]; then  # in a git repository
         echo This repository \"$repository\" is wrong.
     fi
 elif $INSTALLER git; then   # not in a repository
-    git clone https://github.com/leorge/$REPO.git && cd $REPO && bash $myName
+    git clone https://github.com/leorge/$REPO.git && \
+    pushd $REPO && bash $myName && popd && rm $0
 elif $INSTALLER unzip; then # unzip(1) is available
     ZIP=master.zip
     wget -N https://github.com/leorge/$REPO/archive/$ZIP && \

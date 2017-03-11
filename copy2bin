@@ -7,8 +7,7 @@ elif mkdir -p $BIN; then
         `basename $0` | "README.md" | "downloader" )
             ;;  # do nothing
         *)
-            echo "Copy $cmd ... to $BIN/"
-            cp $cmd $BIN/
+            cp $cmd $BIN/ # && echo $0: $cmd is copied. >&2
             ;;
         esac
     done

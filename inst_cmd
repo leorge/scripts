@@ -1,4 +1,9 @@
 #!/bin/bash
+if [ $# -eq 0 ]; then
+	echo " `basename $0` install serveral commands."
+	echo " usage : $0 command1 [command2 [ .... ]]"
+	exit
+fi
 NULL=/dev/null
 for app in $*; do
     if ! which $app > $NULL; then

@@ -1,67 +1,29 @@
 myName=`basename $0`
-echo $myName
-function CopyCmd {
-echo "CopyCmd()"
-    BIN=~/bin; mkdir -p $BIN || exit
-    for cmd in *; do
-        if [ $cmd = "README.md" ] || [ $cmd = $myName ]; then
-            continue  # do nothing
-        else
-echo "Copy $cmd ... to $BIN/"
-            cp $cmd $BIN/
-        fi
-    done
-}
-REPO=scripts; PIVOT=esd.awk
-if [ -d .git ] && [ -x $PIVOT ]; then   # in the repository
-echo "pull $REPO"
-    git pull && CopyCmd
-elif which $PIVOT > /dev/null; then  # maybe already installed
-    echo $PIVOT is available. Searching $PIVOT ...
-    pushd ~
-    for cmd in `find / -name $PIVOT -print 2>/dev/null`; do
-        echo $cmd; cd `dirname $cmd`
-        if [ -d .git ]; then
-            echo A repository is found.
-            git pull
-            if [ -x $PIVOT ]; then
-                bash $myName  # recursive call
-                popd && rm $0
-                exit     # complete
-            fi
-        fi
-    done
-    echo There is no appropriate repository.
-    rm `which $PIVOT`
-    popd && bash $myName  # retry
-elif [ -d $REPO ]; then  # the repository may exist in the subdirectory.
-    cd $REPO
-    bash $myName  # recursive call
-else  # make a repository here.
-    INSTALLER=inst_cmd; TMP=/tmp
-    if ! which $INSTALLER > /dev/null; then  # not installed.
-echo "install $INSTALLER temporarily."
-        wget -N -P $TMP https://github.com/leorge/$REPO/raw/master/$INSTALLER
-        chmod +x $TMP/$INSTALLER
-        PATH=$PATH:$TMP  # temporarily
-    fi
-    $INSTALLER gawk
-    if $INSTALLER git; then
-echo "clone $REPO"
-        git clone https://github.com/leorge/$REPO.git
-        pushd $REPO && bash $myName && popd && rm $0
-    elif $INSTALLER unzip; then
-echo "download zip file"
-        pushd $TMP
-            ZIP=master.zip; rm -f $ZIP
-            wget -N https://github.com/leorge/$REPO/archive/$ZIP
-            unzip $ZIP
-            cd $REPO
-            CopyCmd
-        popd
+# Try "bash downloader" and "bash ./downloader" for the following line.
+echo -n $myName; [ $0 = $myName ] && echo "" || echo " in $0"
+REPO=scripts; INSTALLER=inst_cmd; BIN=~/bin; TMP=/tmp; NULL=/dev/null
+if ! which $INSTALLER > $NULL; then
+    echo "$INSTALLER is not installed."
+    CMD=$TMP/$INSTALLER; mkdir -p $TMP
+    [ -f $CMD ] || wget -P $TMP https://github.com/leorge/scripts/raw/master/$INSTALLER
+    chmod +x $CMD && PATH=$PATH:$TMP && which $INSTALLER && bash $0    # recursive call
+elif [ -d .git ]; then  # in a git repository
+    repository=`grep "url = " .git/config | sed -e 's#.*/\(.*\)\.git#\1#'`
+    if [ $repository = $REPO ]; then
+        $INSTALLER git && echo -n "Pulling the repository... " && git pull
+        bash copy2bin
     else
-        ERR=$?
-        echo "You can't install git and unzip" >&2
-        exit $ERR
+        echo This repository \"$repository\" is wrong.
     fi
+elif $INSTALLER git; then   # not in a repository
+    git clone https://github.com/leorge/$REPO.git && cd $REPO && bash $myName
+elif $INSTALLER unzip; then # unzip(1) is available
+    ZIP=master.zip
+    wget -N https://github.com/leorge/$REPO/archive/$ZIP && \
+    unzip $ZIP && cd $REPO && bash $myName
+else
+    ERR=$?
+    echo "You can not install git and unzip" >&2
+    echo "Please clone the repository \"$REPO\" under another operating system, then retry."
+    exit $ERR
 fi

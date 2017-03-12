@@ -6,11 +6,11 @@ elif mkdir -p $BIN; then
         [ -x $cmd ] && cp $cmd $BIN/ 2> /dev/null
     done
     if ! echo :$PATH: | grep :$HOME/bin: > /dev/null; then
+        export PATH=$HOME/bin:$PATH
         for i in ~/.profile ~/.bash_profile; do
             if [ -f $i ]; then
                 if ! grep '$HOME/bin' $i > /dev/null; then
                     echo PATH=\"\$HOME/bin:\$PATH\" >> $i
-                    export PATH=$HOME/bin:$PATH
                 fi
                 break
             fi

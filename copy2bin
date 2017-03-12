@@ -5,5 +5,5 @@ elif mkdir -p $BIN; then
     for cmd in *; do
         [ -x $cmd ] && cp $cmd $BIN/ 2> /dev/null
     done
-	bash addpath $BIN
+    bash addpath $BIN
 fi

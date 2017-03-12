@@ -5,7 +5,7 @@ NewPath=$1; shift
 for i in ~/.profile ~/.bash_profile; do
     if [ -f $i ]; then
         if ! grep -e "PATH=.*:$NewPath" $i > /dev/null; then
-            echo PATH=\"\$PATH:$NewPath\" >> $i
+            echo PATH=\"\$PATH:$NewPath\" | sed s#$HOME#\$HOME#g >> $i
 			echo "Please logout and login again." >& 2
         fi
         break

@@ -1,0 +1,13 @@
+if [ $# == 0 ]; then
+    echo "usage : $0 path"; exit
+fi
+NewPath=$1; shift
+for i in ~/.profile ~/.bash_profile; do
+    if [ -f $i ]; then
+        if ! grep -e "PATH=.*:$NewPath" $i > /dev/null; then
+            echo PATH=\"\$PATH:$NewPath\" >> $i
+			echo "Please logout and login again." >& 2
+        fi
+        break
+    fi
+done

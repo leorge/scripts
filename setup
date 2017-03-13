@@ -17,14 +17,14 @@ elif [ -d .git ]; then  # in a git repository
         exit 1
     fi
 elif [ -d $REPO ]; then # Scripts are in the sub-directory.
-    pushd $REPO && bash $myName && popd && rm $myName
+    pushd $REPO && bash $myName && popd && rm -f $myName
 elif $INSTALLER git; then   # not in a repository
     git clone https://github.com/leorge/$REPO.git && \
-    bash $REPO/$myName && rm $myName
+    bash $REPO/$myName && rm -f $myName
 elif $INSTALLER unzip; then # unzip(1) is available
     ZIP=master.zip
     wget -N https://github.com/leorge/$REPO/archive/$ZIP && \
-    unzip $ZIP && bash $REPO/$myName && rm $myName
+    unzip $ZIP && bash $REPO/$myName && rm -f $myName
 else
     ERR=$?
     echo "You can not install both git and unzip." >&2

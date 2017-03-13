@@ -1,5 +1,5 @@
 myName=`basename $0`
-# Try "bash downloader" and "bash ./downloader" for the following line.
+# Try "bash setup" and "bash ./setup" for the following line.
 echo -n $myName; [ $0 = $myName ] && echo "" || echo " in $0"
 REPO=scripts; INSTALLER=inst_cmd; BIN=~/bin; TMP=/tmp; NULL=/dev/null
 if ! which $INSTALLER > $NULL; then

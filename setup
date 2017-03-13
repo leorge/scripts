@@ -8,7 +8,7 @@ if ! which $INSTALLER > $NULL; then
     [ -f $CMD ] || wget -P $TMP https://github.com/leorge/scripts/raw/master/$INSTALLER
     chmod +x $CMD && PATH=$PATH:$TMP && which $INSTALLER && bash $0    # recursive call
 elif [ -d .git ]; then  # in a git repository
-    repository=`grep "url = " .git/config | sed -e 's#.*/\(.*\)\.git#\1#'`
+    repository=`grep "url = " .git/config | sed 's#.*/\(.*\)\.git#\1#'`
     if [ $repository = $REPO ]; then
         $INSTALLER git && echo -n "Pulling the repository... " && git pull
         bash copy2bin

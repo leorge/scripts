@@ -14,6 +14,7 @@ elif [ -d .git ]; then  # in a git repository
         bash copy2bin
     else
         echo This repository \"$repository\" is wrong.
+        exit 1
     fi
 elif [ -d $REPO ]; then # Scripts are in the sub-directory.
     pushd $REPO && bash $myName && popd && rm $0
@@ -26,8 +27,7 @@ elif $INSTALLER unzip; then # unzip(1) is available
     unzip $ZIP && cd $REPO && bash $myName
 else
     ERR=$?
-    echo "You can not install git and unzip" >&2
+    echo "You can not install both git and unzip." >&2
     echo "Please clone the repository \"$REPO\" under another operating system, then retry." >&2
     exit $ERR
 fi
-export PATH     # maybe modified by copy2bin.

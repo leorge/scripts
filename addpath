@@ -1,12 +1,17 @@
-if [ $# == 0 ]; then
+#!/bin/sh
+if [ $# != 1 ]; then
     echo "usage : $0 path"; exit
 fi
 NewPath=$1; shift
-for i in ~/.profile ~/.bash_profile; do
+for i in ~/.profile ~/.bash_profile; do # search a file to be written
     if [ -f $i ]; then
-        if ! grep -e "PATH=.*:$NewPath" $i > /dev/null; then
+        if ! grep PATH= $i | sed -e s/.*PATH=/:/ -e s/\"//g \
+            -e s#\$HOME#$HOME#g -e s/$/:/ | grep :$NewPath: > /dev/null
+        then
             echo PATH=\"\$PATH:$NewPath\" | sed s#$HOME#\$HOME#g >> $i
-            echo "Please logout and login again." >& 2
+            if ! echo :$PATH: | grep :$NewPath: > /dev/null; then
+                echo "Please logout and login again. " >& 2
+            fi
         fi
         break
     fi

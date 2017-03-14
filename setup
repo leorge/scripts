@@ -1,4 +1,4 @@
-myName=`basename $0`; fullName=$PWD/$$
+myName=`basename $0`; fullName=$PWD/$0
 echo myName=$myName fullName=$fullName; exit
 REPO=scripts; INSTALLER=inst_cmd; BIN=~/bin; NULL=/dev/null
 if [ -d .git ]; then  # in a git repository

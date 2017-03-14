@@ -1,22 +1,18 @@
-myName=`basename $0`
-# Try "bash setup" and "bash ./setup" for the following line.
-# echo -n $myName; [ $0 = $myName ] && echo "" || echo " in $0"
-REPO=scripts; INSTALLER=inst_cmd; BIN=~/bin; NULL=/dev/null
+myName=`basename $0`; REPO=scripts; INSTALLER=inst_cmd; BIN=~/bin; NULL=/dev/null
 if [ -d .git ]; then  # in a git repository
     repository=`grep "url = " .git/config | sed 's#.*/\(.*\)\.git#\1#'`
-    if [ $repository = $REPO ]; then
+    if [ $repository != $REPO ]; then
+        echo This repository \"$repository\" is not \"$REPO\".
+        exit 1
+    elif which $INSTALLER > $NULL; then
         $INSTALLER git && git pull
-        mkdir -p $BIN
-        bash addpath $BIN
+        mkdir -p $BIN; bash addpath $BIN
         for cmd in *; do
             [ -x $cmd ] && cp $cmd $BIN/ 2> /dev/null
         done
     else
-        echo This repository \"$repository\" is not \"$REPO\".
-        exit 1
+        cd .. && bash $0    # call again
     fi
-elif [ -d $REPO ]; then # Scripts are in the sub-directory.
-    pushd $REPO && bash $myName && popd && rm -f $myName
 elif ! which $INSTALLER > $NULL; then   # $INSTALLER is not installed.
     if [ -f $BIN/$INSTALLER ]; then
         PATH=$PATH:$BIN; bash $0    # call again after an installer becomes avaiable.
@@ -25,6 +21,8 @@ elif ! which $INSTALLER > $NULL; then   # $INSTALLER is not installed.
         [ -f $CMD ] || wget -P $TMP https://github.com/leorge/$REPO/raw/master/$INSTALLER
         chmod +x $CMD && PATH=$PATH:$TMP && bash $0    # call again
     fi
+elif [ -d $REPO ]; then # Scripts are in the sub-directory.
+    pushd $REPO && bash $myName && popd && rm -f $myName
 elif $INSTALLER git; then   # not in a repository
     git clone https://github.com/leorge/$REPO.git && bash $myName
 else

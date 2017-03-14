@@ -1,33 +1,35 @@
 myName=`basename $0`
 # Try "bash setup" and "bash ./setup" for the following line.
 # echo -n $myName; [ $0 = $myName ] && echo "" || echo " in $0"
-REPO=scripts; INSTALLER=inst_cmd; BIN=~/bin; TMP=/tmp; NULL=/dev/null
-if ! which $INSTALLER > $NULL; then
-    echo "$INSTALLER is not installed."
-    CMD=$TMP/$INSTALLER; mkdir -p $TMP
-    [ -f $CMD ] || wget -P $TMP https://github.com/leorge/scripts/raw/master/$INSTALLER
-    chmod +x $CMD && PATH=$PATH:$TMP && which $INSTALLER && bash $0    # recursive call
-elif [ -d .git ]; then  # in a git repository
+REPO=scripts; INSTALLER=inst_cmd; BIN=~/bin; NULL=/dev/null
+if [ -d .git ]; then  # in a git repository
     repository=`grep "url = " .git/config | sed 's#.*/\(.*\)\.git#\1#'`
     if [ $repository = $REPO ]; then
-        $INSTALLER git && echo -n "Pulling the repository... " && git pull
-        bash copy2bin
+        $INSTALLER git && git pull
+        mkdir -p $BIN
+        bash addpath $BIN
+        for cmd in *; do
+            [ -x $cmd ] && cp $cmd $BIN/ 2> /dev/null
+        done
     else
-        echo This repository \"$repository\" is wrong.
+        echo This repository \"$repository\" is not \"$REPO\".
         exit 1
     fi
 elif [ -d $REPO ]; then # Scripts are in the sub-directory.
     pushd $REPO && bash $myName && popd && rm -f $myName
+elif ! which $INSTALLER > $NULL; then   # $INSTALLER is not installed.
+    if [ -f $BIN/$INSTALLER ]; then
+        PATH=$PATH:$BIN; bash $0    # call again after an installer becomes avaiable.
+    else
+        TMP=/tmp; mkdir -p $TMP; CMD=$TMP/$INSTALLER
+        [ -f $CMD ] || wget -P $TMP https://github.com/leorge/$REPO/raw/master/$INSTALLER
+        chmod +x $CMD && PATH=$PATH:$TMP && bash $0    # call again
+    fi
 elif $INSTALLER git; then   # not in a repository
-    git clone https://github.com/leorge/$REPO.git && \
-    bash $REPO/$myName && rm -f $myName
-elif $INSTALLER unzip; then # unzip(1) is available
-    ZIP=master.zip
-    wget -N https://github.com/leorge/$REPO/archive/$ZIP && \
-    unzip $ZIP && bash $REPO/$myName && rm -f $myName
+    git clone https://github.com/leorge/$REPO.git && bash $myName
 else
     ERR=$?
-    echo "You can not install both git and unzip." >&2
-    echo "Please clone the repository \"$REPO\" under another operating system, then retry." >&2
+    echo "Failed to install git(1)." >&2
+    echo "Please git clone \"$REPO\" under another operating system, then retry me!" >&2
     exit $ERR
 fi

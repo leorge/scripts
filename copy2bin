@@ -1,9 +1,0 @@
-BIN=~/bin
-if [ `pwd` = $BIN ]; then
-    echo "Don't launch $0 in $BIN" >& 2
-elif mkdir -p $BIN; then
-    for cmd in *; do
-        [ -x $cmd ] && cp $cmd $BIN/ 2> /dev/null
-    done
-    bash addpath $BIN
-fi

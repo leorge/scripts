@@ -1,35 +1,36 @@
-myName=`basename $0`; echo \$0=$0 myName=$myName
+myName=`basename $0`; myDir=`dirname $0`; SETUP=setup
+echo \$0=$0 myDir=\"$mydir\" myName=\"$myName\"
 REPO=scripts; INSTALLER=inst_cmd; BIN=~/bin; NULL=/dev/null
-if [ -d .git ]; then  # in a git repository
-    repository=`grep "url = " .git/config | sed 's#.*/\(.*\)\.git#\1#'`
+if [ -d $myDir/.git ]; then # This script is in a git repository
+    repository=`grep "url = " $myDir/.git/config | sed 's#.*/\(.*\)\.git#\1#'`
     if [ $repository != $REPO ]; then
-        echo This repository \"$repository\" is not \"$REPO\".
+        echo The repository \"$repository\" is not \"$REPO\".
         exit 1
-    elif which $INSTALLER > $NULL; then
-        $INSTALLER git && git pull
+    else
+        which $INSTALLER > $NULL && $INSTALLER git && git pull
         mkdir -p $BIN; bash addpath $BIN
         for cmd in *; do
             [ -x $cmd ] && cp $cmd $BIN/ 2> /dev/null
         done
-    else
-        echo "$PWD -->  .."
-        cd .. && bash $REPO/$myName		# call again
     fi
-elif ! which $INSTALLER > $NULL; then   # $INSTALLER is not installed.
-    if [ -f $BIN/$INSTALLER ]; then
-        PATH=$PATH:$BIN; bash $0    # call again after an installer becomes avaiable.
-    else
-        TMP=/tmp; mkdir -p $TMP; CMD=$TMP/$INSTALLER
-        [ -f $CMD ] || wget -P $TMP https://github.com/leorge/$REPO/raw/master/$INSTALLER
-        chmod +x $CMD && PATH=$PATH:$TMP && bash $0    # call again
+elif [ -d $myDir/$REPO ]; then # Scripts maybe in the sub-directory.
+    bash $myDir/$REPO/$SETUP && rm -f $0
+else    # get the repository
+    if ! which $INSTALLER > $NULL; then # The installer is not available.
+        if [ -x $BIN/$INSTALLER ]; then   # The installer exists in $HOME/bin
+            PATH=$PATH:$BIN
+        else
+            TMP = /tmp; PATH=$PATH:$TMP
+            wget -P $TMP https://github.com/leorge/$REPO/raw/master/$INSTALLER || exit 1
+            chmod +x $CMD
+        fi
     fi
-elif [ -d $REPO ]; then # Scripts are in the sub-directory.
-    bash $REPO/$myName && rm -f $myName
-elif $INSTALLER git; then   # not in a repository
-    git clone https://github.com/leorge/$REPO.git && bash $myName
-else
-    ERR=$?
-    echo "Failed to install git(1)." >&2
-    echo "Please git clone \"$REPO\" under another operating system, then retry me!" >&2
-    exit $ERR
+    if ! $INSTALLER git; then
+        ERR=$?
+        echo "Failed to install git(1)." >&2
+        echo "Please git clone \"$REPO\" under another operating system, then retry me!" >&2
+        exit $ERR
+    elif git clone https://github.com/leorge/$REPO.git; then
+        bash $myDir/$REPO/$SETUP && rm -f $0
+    fi
 fi

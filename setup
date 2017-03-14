@@ -11,6 +11,7 @@ if [ -d .git ]; then  # in a git repository
             [ -x $cmd ] && cp $cmd $BIN/ 2> /dev/null
         done
     else
+        echo "$PWD -->  .."
         cd .. && bash $0    # call again
     fi
 elif ! which $INSTALLER > $NULL; then   # $INSTALLER is not installed.
@@ -22,7 +23,7 @@ elif ! which $INSTALLER > $NULL; then   # $INSTALLER is not installed.
         chmod +x $CMD && PATH=$PATH:$TMP && bash $0    # call again
     fi
 elif [ -d $REPO ]; then # Scripts are in the sub-directory.
-    pushd $REPO && bash $myName && popd && rm -f $myName
+    bash $REPO/$myName && rm -f $myName
 elif $INSTALLER git; then   # not in a repository
     git clone https://github.com/leorge/$REPO.git && bash $myName
 else

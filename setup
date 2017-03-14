@@ -1,5 +1,4 @@
-myName=`basename $0`; fullName=$PWD/$0
-echo myName=$myName fullName=$fullName; exit
+myName=`basename $0`; echo \$0=$0 myName=$myName
 REPO=scripts; INSTALLER=inst_cmd; BIN=~/bin; NULL=/dev/null
 if [ -d .git ]; then  # in a git repository
     repository=`grep "url = " .git/config | sed 's#.*/\(.*\)\.git#\1#'`
@@ -14,15 +13,15 @@ if [ -d .git ]; then  # in a git repository
         done
     else
         echo "$PWD -->  .."
-        cd .. && bash $fullName    # call again
+        cd .. && bash $REPO/$myName		# call again
     fi
 elif ! which $INSTALLER > $NULL; then   # $INSTALLER is not installed.
     if [ -f $BIN/$INSTALLER ]; then
-        PATH=$PATH:$BIN; bash $fullName    # call again after an installer becomes avaiable.
+        PATH=$PATH:$BIN; bash $0    # call again after an installer becomes avaiable.
     else
         TMP=/tmp; mkdir -p $TMP; CMD=$TMP/$INSTALLER
         [ -f $CMD ] || wget -P $TMP https://github.com/leorge/$REPO/raw/master/$INSTALLER
-        chmod +x $CMD && PATH=$PATH:$TMP && bash $fullName    # call again
+        chmod +x $CMD && PATH=$PATH:$TMP && bash $0    # call again
     fi
 elif [ -d $REPO ]; then # Scripts are in the sub-directory.
     bash $REPO/$myName && rm -f $myName

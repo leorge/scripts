@@ -1,5 +1,5 @@
 myName=`basename $0`; myDir=`dirname $0`; SETUP=setup
-echo \$0=$0 myDir=\"$mydir\" myName=\"$myName\"
+#echo \$0=$0 myDir=\"$mydir\" myName=\"$myName\"
 REPO=scripts; INSTALLER=inst_cmd; BIN=~/bin; NULL=/dev/null
 if [ -d $myDir/.git ]; then # in a git repository
     repository=`grep "url = " $myDir/.git/config | sed 's#.*/\(.*\)\.git#\1#'`

@@ -6,23 +6,23 @@ if [ $# -eq 0 ]; then
 fi
 NULL=/dev/null
 for app in $*; do
-    if ! which $app 2>&1 >$NULL; then
+    if ! which $app > $NULL; then
         echo -n "Install $app..." 1>&2
         unset ERR
         #--- debian ---- 
-        if which apt 2>&1 >$NULL; then
+        if which apt 2>&1 > $NULL; then
             sudo apt install -y $app
-        elif which apt-get 2>&1 >$NULL; then
+        elif which apt-get 2>&1 > $NULL; then
             sudo apt-get install -y $app
-        elif which aptitude 2>&1 >$NULL; then
+        elif which aptitude 2>&1 > $NULL; then
             sudo aptitude install -y $app
         #--- redhat ---- 
-        elif which dnf 2>&1 >$NULL; then
+        elif which dnf 2>&1 > $NULL; then
             sudo dnf install -y $app.x86_64
-#        elif which yum 2>&1 >$NULL; then
+#        elif which yum 2>&1 > $NULL; then
 #            sudo yum install -y $app
         #--- arch linux ---
-        elif which pacman 2>&1 >$NULL; then
+        elif which pacman 2>&1 > $NULL; then
             sudo pacman -S $app
         else
             ERR=$?

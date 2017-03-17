@@ -6,7 +6,7 @@ if [ $# -eq 0 ]; then
 fi
 NULL=/dev/null
 for app in $*; do
-    if ! which $app > $NULL; then
+    if ! which $app 2>&1 > $NULL; then
         echo -n "Install $app..." 1>&2
         unset ERR
         #--- debian ---- 

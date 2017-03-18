@@ -24,6 +24,9 @@ for app in $*; do
         #--- arch linux ---
         elif which pacman 2>&1 > $NULL; then
             sudo pacman -S $app
+        #--- tiny core linux ---
+        elif which tce-load 2>&1 > $NULL; then
+            sudo tce-load -wi $app
         else
             ERR=$?
             echo " failed." 1>&2

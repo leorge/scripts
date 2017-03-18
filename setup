@@ -22,7 +22,7 @@ else    # get the repository
         else
             TMP=/tmp; PATH=$PATH:$TMP
             wget -P $TMP https://github.com/leorge/$REPO/raw/master/$INSTALLER || exit 1
-            chmod +x $CMD
+            chmod +x $TMP/$INSTALLER
         fi
     fi
     if ! $INSTALLER git; then

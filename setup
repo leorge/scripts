@@ -20,7 +20,7 @@ else    # get the repository
         if [ -x $BIN/$INSTALLER ]; then     # The installer exists in $HOME/bin
             PATH=$PATH:$BIN
         else
-            TMP = /tmp; PATH=$PATH:$TMP
+            TMP=/tmp; PATH=$PATH:$TMP
             wget -P $TMP https://github.com/leorge/$REPO/raw/master/$INSTALLER || exit 1
             chmod +x $CMD
         fi

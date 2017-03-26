@@ -3,15 +3,18 @@ if [ $# != 1 ]; then
     echo "usage : $0 path"; exit
 fi
 NewPath=`readlink -f $1`; shift
-RC=~/.`basename $SHELL`rc
-if ! grep '^[[:space:]]*PATH=' $RC \
-	| sed -e s/^.*PATH=/:/ -e s/\"//g -e s#\$HOME#$HOME#g -e s/$/:/ \
-	| grep ":$NewPath:" > /dev/null
-then
+RC=~/.`basename $SHELL`rc; NULL="/dev/null"
+if echo ":$PATH:" | grep ":$NewPath:" > $NULL; then
+    true    # Do nothing
+elif grep '^[[:space:]]*PATH=' $RC \
+    | sed -e s/^.*PATH=/:/ -e s/\"//g -e s#\$HOME#$HOME#g -e s/$/:/ \
+    | grep ":$NewPath:" > $NULL; then
+    true    # Do nothing
+else
     echo PATH=\"\$PATH:$NewPath\" | sed s#$HOME#\$HOME#g >> $RC
-	if tty | grep '^/dev/pt' > /dev/null; then
-		echo "Please open another console."
-	else
-		echo "Please logout and login again."
-	fi
+    if tty | grep '^/dev/pt' > $NULL; then
+        echo "Please open another console."
+    else
+        echo "Please logout and login again."
+    fi
 fi

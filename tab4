@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-#	Note that the file mode bit and file linkage will be lost.
+#   Note that the file mode bit and file linkage will be lost.
 #
 for a in $*; do
     expand -t 4 $a > tmp$$

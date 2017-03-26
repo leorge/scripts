@@ -8,7 +8,4 @@ if ! grep PATH= $RC | sed -e s/.*PATH=/:/ -e s/\"//g \
     -e s#\$HOME#$HOME#g -e s/$/:/ | grep :$NewPath: > /dev/null
 then
     echo PATH=\"\$PATH:$NewPath\" | sed s#$HOME#\$HOME#g >> $RC
-    if ! echo :$PATH: | grep :$NewPath: > /dev/null; then
-        echo "Please logout and login again. " >& 2
-    fi
 fi

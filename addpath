@@ -4,8 +4,14 @@ if [ $# != 1 ]; then
 fi
 NewPath=`readlink -f $1`; shift
 RC=~/.`basename $SHELL`rc
-if ! grep PATH= $RC | sed -e s/.*PATH=/:/ -e s/\"//g \
-    -e s#\$HOME#$HOME#g -e s/$/:/ | grep :$NewPath: > /dev/null
+if ! grep '^[[:space:]]*PATH=' $RC \
+	| sed -e s/^.*PATH=/:/ -e s/\"//g -e s#\$HOME#$HOME#g -e s/$/:/ \
+	| grep ":$NewPath:" > /dev/null
 then
     echo PATH=\"\$PATH:$NewPath\" | sed s#$HOME#\$HOME#g >> $RC
+	if tty | grep '^/dev/pt' > /dev/null; then
+		echo "Please open another console."
+	else
+		echo "Please logout and login again."
+	fi
 fi

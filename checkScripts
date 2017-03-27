@@ -1,16 +1,19 @@
 #!/bin/bash
 LANG=C
-app=random.awk
-if ! which $app > /dev/null; then
-    cat - << EOF
+for inf in random.awk:data ; do
+	 app=`echo $inf | cut -d : -f 1`
+	proj=`echo $inf | cut -d : -f 2`
+	if ! which $app > /dev/null; then
+    	cat - << EOF
 
 $app is absent.
 
 Please visit my projects in the following URL,
 and install it according to the README.md.
 
-    https://github.com/leorge/data
+    https://github.com/leorge/$proj
 
 EOF
-    exit -1
-fi
+    	exit -1
+	fi
+done

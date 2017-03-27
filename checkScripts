@@ -1,0 +1,16 @@
+#!/bin/bash
+LANG=C
+app=random.awk
+if ! which $app > /dev/null; then
+	cat - << EOF
+
+$app is absent.
+
+Please visit my projects in the following URL,
+and install it according to the README.md.
+
+    https://github.com/leorge/data
+
+EOF
+	exit -1
+fi

@@ -2,7 +2,7 @@
 LANG=C
 app=random.awk
 if ! which $app > /dev/null; then
-	cat - << EOF
+    cat - << EOF
 
 $app is absent.
 
@@ -12,5 +12,5 @@ and install it according to the README.md.
     https://github.com/leorge/data
 
 EOF
-	exit -1
+    exit -1
 fi

@@ -1,0 +1,20 @@
+#!/bin/bash
+#
+# Applications
+#
+
+WEB="http://github.com/leorge"
+
+function guide () {
+    echo "Please setup $1."
+    echo "Visit the following URL and read the README.md below in the page."
+    echo "$WEB/$2" 
+}
+if ! which $INSTALLER > $NULL; then
+    guide scripts scripts
+    exit 127
+elif ! which random.awk > $NULL; then
+    guide "data generator" data
+    exit 127
+fi
+

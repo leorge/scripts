@@ -2,6 +2,6 @@
 LANG=en_US.UTF-8
 cat /proc/cpuinfo | egrep ' lm( |$)' > /dev/null && exit	# OK
 if [ `getconf LONG_BIT` != 64 ]; then
-    echo "You should run this script on x86_64 architecture."
+    echo "You should run this script on x86_64 CPU architecture."
     exit 1
 fi

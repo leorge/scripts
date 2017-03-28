@@ -3,7 +3,7 @@
 # Applications
 #
 
-NULL=/dev/null
+LANG=en_US.UTF-8; NULL=/dev/null
 WEB="http://github.com/leorge"
 
 function guide () {

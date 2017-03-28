@@ -1,0 +1,8 @@
+#!/bin/bash
+LANG=en_US.UTF-8
+cat /proc/cpuinfo | egrep ' lm( |$)' > /dev/null || [ `getconf LONG_BIT` == 64 ]
+if [ ! $? ]; then
+	ERR=$?
+    echo "You should run this script on x86_64 architecture."
+    exit $ERR
+fi

@@ -7,7 +7,7 @@ if [ -d $myDir/.git ]; then # in a git repository
         echo The repository \"$repository\" is not \"$REPO\".
         exit 1
     else
-        which $INSTALLER > $NULL && $INSTALLER git && git pull
+        which $INSTALLER > $NULL 2>&1 && $INSTALLER git && git pull
         mkdir -p $BIN; bash $myDir/addpath $BIN
         for cmd in $myDir/*; do
             [ -x $cmd ] && cp $cmd $BIN/ 2> /dev/null
@@ -17,8 +17,8 @@ if [ -d $myDir/.git ]; then # in a git repository
 elif [ -d $myDir/$REPO ]; then # Scripts maybe in the sub-directory.
     pushd $myDir/$REPO; bash $SETUP && rm -f $myDir/$myName; popd
 else    # get the repository
-    if ! which $INSTALLER > $NULL; then     # The installer is not available.
-        if [ -x $BIN/$INSTALLER ]; then     # The installer exists in $HOME/bin
+    if ! which $INSTALLER > $NULL 2>&1; then	# The installer is not available.
+        if [ -x $BIN/$INSTALLER ]; then     	# The installer exists in $HOME/bin
             PATH=$PATH:$BIN
         else
             TMP=/tmp; PATH=$PATH:$TMP

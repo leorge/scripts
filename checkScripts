@@ -11,10 +11,10 @@ function guide () {
     echo "Visit the following URL and read the README.md below in the page."
     echo "$WEB/$2" 
 }
-if ! which inst_cmd > $NULL; then
+if ! which inst_cmd > $NULL 2>&1; then
     guide scripts scripts
     exit 127
-elif ! which random.awk > $NULL; then
+elif ! which random.awk > $NULL 2>&1; then
     guide "data generator" data
     exit 127
 fi

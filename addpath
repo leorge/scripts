@@ -10,12 +10,12 @@ NULL="/dev/null"; SH=`basename $SHELL`
 if [ "$SH" == "sh" ]; then RC=~/.rc; else RC=~/.${SH}rc; fi
 if echo ":$PATH:" | grep ":$NewPath:" > $NULL; then
     true    # Do nothing
-elif grep -i '^(EXPORT)*[[:space:]]*PATH=' $RC \
+elif grep -i '^(export)*[[:space:]]*PATH=' $RC \
     | sed -e s/^.*PATH=/:/ -e s/\"//g -e s#\$HOME#$HOME#g -e s/$/:/ \
     | grep ":$NewPath:" > $NULL; then	# already set
     true    # Do nothing
 else
-    echo "EXPORT PATH=\"\$PATH:$NewPath\" | sed s#$HOME#\$HOME#g" >> $RC
+    echo "export PATH=\"\$PATH:$NewPath\" | sed s#$HOME#\$HOME#g" >> $RC
 	$SHELL
 #    if tty | grep '^/dev/pt' > $NULL; then
 #        echo "Please open another console."

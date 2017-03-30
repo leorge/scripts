@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-#	Do this script just before exit.
+#   Do this script just before exit.
 #
 if [ $# != 1 ]; then
     echo "usage : $0 path"; exit
@@ -12,9 +12,9 @@ if echo ":$PATH:" | grep ":$NewPath:" > $NULL; then
     true    # Do nothing
 elif grep -i '^(export)*[[:space:]]*PATH=' $RC \
     | sed -e s/^.*PATH=/:/ -e s/\"//g -e s#\$HOME#$HOME#g -e s/$/:/ \
-    | grep ":$NewPath:" > $NULL; then	# already set
+    | grep ":$NewPath:" > $NULL; then   # already set
     true    # Do nothing
 else
     echo "export PATH=\"\$PATH:$NewPath\"" | sed s#$HOME#\$HOME#g >> $RC
-	$SHELL
+    $SHELL
 fi

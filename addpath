@@ -16,5 +16,9 @@ elif grep -i '^(export)*[[:space:]]*PATH=' $RC \
     true    # Do nothing
 else
     echo "export PATH=\"\$PATH:$NewPath\"" | sed s#$HOME#\$HOME#g >> $RC
-    $SHELL
+	if tty | grep /dev/p; then
+		echo "Please open a new console."
+	else
+		echo "Please logoff and login again."
+	fi
 fi

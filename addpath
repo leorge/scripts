@@ -14,7 +14,6 @@ elif grep -i '^(export)*[[:space:]]*PATH=' $RC \
     | sed -e s/^.*PATH=/:/ -e s/\"//g -e s#\$HOME#$HOME#g -e s/$/:/ \
     | grep ":$NewPath:" > $NULL; then	# already set
     true    # Do nothing
-echo yyyyyyyyyyyyy
 else
     echo "export PATH=\"\$PATH:$NewPath\"" | sed s#$HOME#\$HOME#g >> $RC
 	$SHELL

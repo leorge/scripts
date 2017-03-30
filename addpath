@@ -1,20 +1,25 @@
 #!/bin/sh
+#
+#	Do this script just before exit.
+#
 if [ $# != 1 ]; then
     echo "usage : $0 path"; exit
 fi
 NewPath=`readlink -f $1`; shift
-RC=~/.`basename $SHELL`rc; NULL="/dev/null"
+NULL="/dev/null"; SH=`basename $SHELL`
+if [ "$SH" == "sh" ]; then RC=~/.rc; else RC=~/.${SH}rc; fi
 if echo ":$PATH:" | grep ":$NewPath:" > $NULL; then
     true    # Do nothing
-elif grep '^[[:space:]]*PATH=' $RC \
+elif grep -i '^(EXPORT)*[[:space:]]*PATH=' $RC \
     | sed -e s/^.*PATH=/:/ -e s/\"//g -e s#\$HOME#$HOME#g -e s/$/:/ \
-    | grep ":$NewPath:" > $NULL; then
+    | grep ":$NewPath:" > $NULL; then	# already set
     true    # Do nothing
 else
-    echo PATH=\"\$PATH:$NewPath\" | sed s#$HOME#\$HOME#g >> $RC
-    if tty | grep '^/dev/pt' > $NULL; then
-        echo "Please open another console."
-    else
-        echo "Please logout and login again."
-    fi
+    echo "EXPORT PATH=\"\$PATH:$NewPath\" | sed s#$HOME#\$HOME#g" >> $RC
+	$SHELL
+#    if tty | grep '^/dev/pt' > $NULL; then
+#        echo "Please open another console."
+#    else
+#        echo "Please logout and login again."
+#    fi
 fi

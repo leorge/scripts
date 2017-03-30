@@ -7,7 +7,7 @@ if [ $# != 1 ]; then
 fi
 NewPath=`readlink -f $1`; shift
 NULL="/dev/null"; SH=`basename $SHELL`
-if [ $SH = sh ]; then RC=~/.rc; else RC=~/.${SH}rc; fi
+if [ $SH = sh ]; then RC=~/.profile; else RC=~/.${SH}rc; fi
 if echo ":$PATH:" | grep ":$NewPath:" > $NULL; then
     true    # Do nothing
 elif grep -i '^(export)*[[:space:]]*PATH=' $RC \

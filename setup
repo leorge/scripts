@@ -8,11 +8,11 @@ if [ -d $myDir/.git ]; then # in a git repository
         exit 1
     else
         which $INSTALLER > $NULL 2>&1 && $INSTALLER git && git pull
-        mkdir -p $BIN; bash $myDir/addpath $BIN
         for cmd in $myDir/*; do
             [ -x $cmd ] && cp $cmd $BIN/ 2> /dev/null
         done
         ls $BIN
+        mkdir -p $BIN; bash addpath $BIN
     fi
 elif [ -d $myDir/$REPO ]; then # Scripts maybe in the sub-directory.
     pushd $myDir/$REPO; bash $SETUP && rm -f $myDir/$myName; popd

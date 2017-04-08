@@ -12,7 +12,7 @@ if [ -d $myDir/.git ]; then # in a git repository
         for cmd in $myDir/*; do
             [ -x $cmd ] && cp $cmd $BIN/ 2> /dev/null
         done
-        ls $BIN; ./addpath $BIN
+        ls $BIN; $BIN/addpath $BIN
     fi
 elif [ -d $myDir/$REPO ]; then # Scripts maybe in the sub-directory.
     pushd $myDir/$REPO; bash $SETUP && rm -f $myDir/$myName; popd

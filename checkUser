@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# Check user ID.
+#
+ID=`id -u`  # User ID.
+if [ $# -lt 1 ]; then
+    echo "Usage : $0  user_id" >&2
+    exit 1
+elif [ $ID -gt 0 ] && [ $ID -ne $1 ]; then
+    echo "$0 : User should be a root user or user ID.=$1" >&2
+    exit 2
+fi

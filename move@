@@ -4,5 +4,6 @@
 #
 for file in $*; do
 	sed -i -e '/^@$/d' $file
+	echo "" >> $file
 	echo "@" >> $file
 done

@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+#	Move a line "@" to the end of file.
+#
+for file in $*; do
+	sed -i -e '/^@$/d' $file
+	echo "@" >> $file
+done

@@ -2,7 +2,9 @@
 addpath : Add an argument to $PATH.  
 check64bits : Warn and return error if the OS is not for 64 bit.  
 checkJava : Warn and return error if java(1) is not installed.  
-checkScripts : Warn and return error if my scritps or data sequence generators are not installed.  
+checkScripts : Warn and return error if inst_cmd or
+[random.awk](https://github.com/leorge/data/blob/master/random.awk)
+are not installed.  
 checkUser : Warn and return error if the user is not root and the user ID number is not the first argument.  
 col.awk : Output tablist for expand(1) to make columns.  
 esd.awk : Calculate Estimated Standard Deviation of arguments.  

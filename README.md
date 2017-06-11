@@ -10,5 +10,5 @@ et.awk : Create a table of CPU processing time from the output strings of test s
 exp.awk : Make an expression for Libre Office Calc or Microsoft Excel.  
 inst_cmd : General installer instead of apt, apt-get, aptitude, dnf, pacman or tce-load.  
 move@ : Move a line "@" to the end of files.  
-setup : Visit the [wiki](https://github.com/leorge/scripts/wiki).  
+setup : Visit the [wiki page](https://github.com/leorge/scripts/wiki).  
 tab4 : Expand TAB to four spaces. Be aware that the access mode and linkage of the file are lost.  

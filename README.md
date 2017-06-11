@@ -1,5 +1,5 @@
 ### Files
-addpath : Add an arguments to $PATH.  
+addpath : Add an argument to $PATH.  
 check64bits : Warn and return error if the OS is not for 64 bit.  
 checkJava : Warn and return error if java(1) is not installed.  
 checkScripts : Warn and return error if my scritps or data sequence generators are not installed.  

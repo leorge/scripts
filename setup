@@ -1,6 +1,4 @@
-myName=`basename $0`
-#echo \$0=$0 myName=\"$myName\"
-REPO=scripts; INSTALLER=inst_cmd; BIN=~/bin; NULL=/dev/null
+REPO=scripts; INSTALLER=inst_cmd; NULL=/dev/null
 if [ -d .git ]; then # in a git repository
     git pull 2>$NULL
     ./addpath $PWD
@@ -18,6 +16,6 @@ elif ! which git >$NULL 2>&1; then    # git(1) is not installed
         bash $0     # retry me
     fi
 elif git clone https://github.com/leorge/$REPO.git; then
-    pushd $REPO; bash ./$myName; popd; rm -f $0 # recursive call
+    pushd $REPO; bash ./`basename $0`; popd; rm -f $0 # run cloned script
 fi
 

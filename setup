@@ -1,37 +1,23 @@
-myName=`basename $0`; myDir=`dirname $0`; SETUP=setup
-#echo \$0=$0 myDir=\"$mydir\" myName=\"$myName\"
+myName=`basename $0`
+#echo \$0=$0 myName=\"$myName\"
 REPO=scripts; INSTALLER=inst_cmd; BIN=~/bin; NULL=/dev/null
-if [ -d $myDir/.git ]; then # in a git repository
-    repository=`grep "url = " $myDir/.git/config | sed 's#.*/\(.*\)\.git#\1#'`
-    if [ $repository != $REPO ]; then
-        echo The repository \"$repository\" is not \"$REPO\".
-        exit 1
-    else
-        which $INSTALLER > $NULL 2>&1 && $INSTALLER git && git pull
-        mkdir -p $BIN;
-        for cmd in $myDir/*; do
-            [ -x $cmd ] && cp $cmd $BIN/ 2> /dev/null
-        done
-        ls $BIN; $BIN/addpath $BIN
-    fi
-elif [ -d $myDir/$REPO ]; then # Scripts maybe in the sub-directory.
-    pushd $myDir/$REPO; bash $SETUP && rm -f $myDir/$myName; popd
-else    # get the repository
+if [ -d .git ]; then # in a git repository
+    git pull 2>$NULL
+    ./addpath $PWD
+elif ! which git >$NULL 2>&1; then    # git(1) is not installed
     if ! which $INSTALLER > $NULL 2>&1; then    # The installer is not available.
-        if [ -x $BIN/$INSTALLER ]; then         # The installer exists in $HOME/bin
-            PATH=$PATH:$BIN
-        else
-            TMP=/tmp; PATH=$PATH:$TMP
-            wget -P $TMP https://github.com/leorge/$REPO/raw/master/$INSTALLER || exit 1
-            chmod +x $TMP/$INSTALLER
-        fi
+        TMP=$HOME/tmp; mkdir -p $TMP; PATH=$PATH:$TMP
+        wget -P $TMP https://github.com/leorge/$REPO/raw/master/$INSTALLER || exit 1
+        chmod +x $TMP/$INSTALLER
     fi
     if ! $INSTALLER git; then
         ERR=$?
-        echo "Failed to install git(1)." >&2
-        echo "Please git clone \"$REPO\" under another operating system, then retry me!" >&2
+        echo "Please install git(1), and retry me." >&2
         exit $ERR
-    elif git clone https://github.com/leorge/$REPO.git; then
-        bash $myDir/$REPO/$SETUP && rm -f $0
+    else
+        bash $0     # retry me
     fi
+elif git clone https://github.com/leorge/$REPO.git; then
+    pushd $REPO; bash ./$myName; popd; rm -f $0 # recursive call
 fi
+

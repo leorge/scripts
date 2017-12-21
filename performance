@@ -1,0 +1,58 @@
+#!/bin/sh
+LANG=en_US.UTF-8
+
+# Check environment
+
+if checkScripts; then
+    check64bits || exit
+    checkUser 1000 || exit
+    inst_cmd bc setterm || exit
+fi
+
+# Check command parameters
+
+if [ $# -lt 2 ]; then
+    echo "usage : $0  script  log2(N)  [repeat]"
+    exit
+fi
+script=$1; shift    # script
+log2N=$1; shift     # log2(N)
+if [ $log2N -lt 12 ]; then log2N=12; fi
+if [ $# -gt 0 ]; then
+    repeat=$1; shift
+    if [ $repeat -le 0 ]; then repeat=1; fi
+fi
+
+# Output information
+
+sed -i -e '1,/^@/!d' $script    # Delete data part
+echo "start    : `date -u`" >> $script  # add a timestamp
+echo "computer : `uname -norpv`" >> $script
+echo "operator : `id -un`" >> $script
+echo "option   : $script $log2N ${repeat:=1}" >> $script
+
+# Execute
+
+rm -f tmp[1-9]*
+tty | grep '/dev/tty' > /dev/null && setterm --blank 0 --powerdown 0
+SIGINT=2
+trap 'break 2' $SIGINT
+
+for i in `seq 1 $repeat`; do echo "$script `date`  $i/$repeat" >&2
+    random.awk `echo 2^$log2N | bc` > data
+    for j in `seq 12 $log2N`; do echo -n " $j" >&2
+        N=`echo 2^$j | bc`; echo "$i:$j"
+        bash $script $N data
+    done
+    echo "" >&2
+done > tmp$$
+echo "stop     : `date -u`" >> $script       # add a timestamp
+trap $SIGINT
+
+# Output result
+
+OUT=tmp.`basename $script`
+et.awk -v 'x=log2(N)' tmp$$ > $OUT
+expand -t `col.awk $OUT` $OUT | tee -a $script
+echo "Raw data is in a file tmp$$"
+

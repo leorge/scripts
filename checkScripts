@@ -4,7 +4,7 @@
 #
 
 LANG=en_US.UTF-8; NULL=/dev/null
-WEB="http://gitlab.com/scripts"
+WEB="http://gitlab.com/qmisort"
 
 function guide () {
     echo "Please setup $1."

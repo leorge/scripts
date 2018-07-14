@@ -10,5 +10,5 @@ et.awk : Generate a table of CPU processing time from the output strings of test
 exp.awk : Make an expression for Libre Office Calc or Microsoft Excel.  
 inst_cmd : General installer instead of apt, apt-get, aptitude, dnf, pacman or tce-load.  
 move@ : Move a line "@" to the end of a text file.  
-setup : Visit the [wiki page](https://gitlab.com/qmisort/scripts/wiki/home).  
+setup : Visit the [wiki page](https://gitlab.com/qmisort/scripts/wikis/home).  
 tab4 : Expand TAB to four spaces. Note that the access mode and linkage of the file will be lost.  

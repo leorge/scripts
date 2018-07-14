@@ -2,8 +2,7 @@
 addpath : Add an argument to $PATH.  
 check64bits : Is the OS is for 64 bits?  
 checkJava : Is java(1) installed?  
-checkScripts : Is my repository "
-[data](https://github.com/leorge/data) installed?  
+checkScripts : Is my repository ["data"](https://gitlab.com/qmisort/data) installed?  
 checkUser : Check an user ID number.  
 col.awk : Output tablist for expand(1) to make columns.  
 esd.awk : Calculate Estimated Standard Deviation of arguments.  

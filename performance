@@ -28,8 +28,9 @@ fi
 sed -i -e '1,/^@/!d' $script    # Delete data part
 echo "start    : `date -u`" >> $script  # add a timestamp
 echo "computer : `uname -norpv`" >> $script
+echo "CPU      : `cpu_model`" >> $script
 echo "operator : `id -un`" >> $script
-echo "option   : $script $log2N ${repeat:=1}" >> $script
+echo "option   : $opt $log2N ${repeat:=1}" >> $script
 
 # Execute
 
@@ -42,7 +43,7 @@ for i in `seq 1 $repeat`; do echo "$script `date`  $i/$repeat" >&2
     random.awk `echo 2^$log2N | bc` > data
     for j in `seq 12 $log2N`; do echo -n " $j" >&2
         N=`echo 2^$j | bc`; echo "$i:$j"
-        bash $script $N data
+        if ! bash $script $N data ; then break 2 ; fi
     done
     echo "" >&2
 done > tmp$$

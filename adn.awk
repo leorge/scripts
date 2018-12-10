@@ -2,7 +2,7 @@
 #
 #   usage : $0 [-v N=count]
 #
-#   This script appends line a number following a null character in each lines.
+#   This script appends a line number following a null character in each lines.
 #
 BEGIN {
     fmt = "%d"

@@ -5,5 +5,5 @@ if which getconf > /dev/null; then
 elif which uname > /dev/null ; then
     [ `uname -m` == x86_64 ]
 else
-    egrep ' lm( |$)' /proc/cpuinfo > /dev/null
+    egrep -q ' lm( |$)' /proc/cpuinfo
 fi

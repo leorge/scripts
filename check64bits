@@ -1,5 +1,11 @@
 #!/bin/bash
+if which getconf > /dev/null; then
+    [ `getconf LONG_BIT` == "64" ] && exit 0
+    exit 1
+fi
 LANG=en_US.UTF-8
-[ `getconf LONG_BIT` != 64 ] && exit
-[ `uname -m` = x86_64 ] && exit
+if which uname > /dev/null ; then
+    [ `uname -m` = x86_64 ] && exit 0
+    exit 1
+fi
 egrep ' lm( |$)' /proc/cpuinfo > /dev/null

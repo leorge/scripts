@@ -1,8 +1,5 @@
 #!/bin/bash
 LANG=en_US.UTF-8
-if [ `getconf LONG_BIT` != 64 ]; then
-    echo "You should run this script on x86_64 CPU architecture."
-    exit 1
-fi
-if [ `uname -m` = x86_64 ]; then exit; fi   # 64-bit OS
+[ `getconf LONG_BIT` != 64 ] && exit
+[ `uname -m` = x86_64 ] && exit
 egrep ' lm( |$)' /proc/cpuinfo > /dev/null

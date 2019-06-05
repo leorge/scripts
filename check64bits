@@ -1,5 +1,4 @@
 #!/bin/bash
-LANG=en_US.UTF-8
 if which getconf > /dev/null; then
     [ `getconf LONG_BIT` == 64 ]
 elif which uname > /dev/null ; then

@@ -5,4 +5,4 @@ if [ `getconf LONG_BIT` != 64 ]; then
     exit 1
 fi
 if [ `uname -m` = x86_64 ]; then exit; fi   # 64-bit OS
-cat /proc/cpuinfo | egrep ' lm( |$)' > /dev/null
+egrep ' lm( |$)' /proc/cpuinfo > /dev/null

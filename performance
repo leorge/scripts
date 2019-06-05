@@ -35,7 +35,7 @@ echo "option   : $opt $log2N ${repeat:=1}" >> $script
 # Execute
 
 rm -f tmp[1-9]*
-tty | grep '/dev/tty' > /dev/null && setterm --blank 0 --powerdown 0
+tty | grep -q '/dev/tty' && setterm --blank 0 --powerdown 0
 SIGINT=2
 trap 'break 2' $SIGINT
 

@@ -30,7 +30,9 @@ echo "start    : `date -u`" >> $script  # add a timestamp
 echo "computer : `uname -norpv`" >> $script
 echo "CPU      : `cpu_model`" >> $script
 echo "operator : `id -un`" >> $script
-echo "option   : $opt $log2N ${repeat:=1}" >> $script
+echo "size     : ${size:=16}" >> $script
+echo "log2N    : $log2N"  >> $script
+echo "repeat   : ${repeat:=1}" >> $script
 
 # Execute
 

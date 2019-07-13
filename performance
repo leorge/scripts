@@ -16,6 +16,10 @@ if [ $# -lt 2 ]; then
     exit
 fi
 script=$1; shift    # script
+if [ ! -x $script ]; then
+    echo "$script is not executable." > /dev/stderr
+    exit
+fi
 log2N=$1; shift     # log2(N)
 if [ $log2N -lt 12 ]; then log2N=12; fi
 if [ $# -gt 0 ]; then

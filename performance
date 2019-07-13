@@ -16,8 +16,8 @@ if [ $# -lt 2 ]; then
     exit
 fi
 script=$1; shift    # script
-if [ ! -x $script ]; then
-    echo "$script is not executable." > /dev/stderr
+if [ ! -f $script ]; then
+    echo "$script is not found." > /dev/stderr
     exit
 fi
 log2N=$1; shift     # log2(N)
